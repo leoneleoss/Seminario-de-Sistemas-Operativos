@@ -42,7 +42,7 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
 
     #### **Propósito:** Convertir una cadena hexadecimal a un valor decimal.
 
-    #### -**Algoritmo:**
+    #### **Algoritmo:**
     1. Entrada: Una cadena hexadecimal, por ejemplo, `'b06'`.
     2. Operación:
             -Se utiliza la función `int()` con base 16 `(int(hex_str, 16))` para convertir la cadena hexadecimal a decimal.
