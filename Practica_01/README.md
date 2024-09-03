@@ -22,22 +22,46 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
 ### Funciones y Algoritmos
 
 1. **`clean_hex(hex_str)`**:
-   - **Propósito**: Elimina cualquier información después de una barra (`/`) en una cadena hexadecimal.
-   - **Algoritmo**: Divide la cadena en la barra y toma la primera parte.
+    **Propósito:** Limpiar las cadenas hexadecimales para eliminar cualquier información que aparezca después de una barra (/).
 
-   ```python
-   def clean_hex(hex_str):
-       return hex_str.split('/')[0]
-   ```
+    **Algoritmo:**
+
+        1. Entrada: Una cadena hexadecimal que puede tener una parte adicional después de una barra `(/)`, como `'b06/55'`.
+        2. Operación:
+        - Se utiliza el método `split('/')` para dividir la cadena en dos partes en el carácter `/`.
+        - Se toma la primera parte del resultado de la división (la que precede a la barra).
+        3. Salida: La cadena hexadecimal limpia, por ejemplo, `'b06'`.
+
+        ```python
+        def clean_hex(hex_str):
+            return hex_str.split('/')[0]
+        ```
 2. **`hex_to_decimal(hex_str):`**
 
-    - Propósito: Convierte una cadena hexadecimal a un valor decimal.
-    - Algoritmo: Utiliza int(hex_str, 16) para la conversión y maneja excepciones si la conversión falla.
+    **Propósito:** Convertir una cadena hexadecimal a un valor decimal.
+
+    **Algoritmo:**
+        1.  Entrada: Una cadena hexadecimal, por ejemplo, `'b06'`.
+        2.  Operación:
+        -Se utiliza la función `int()` con base 16 `(int(hex_str, 16))` para convertir la cadena hexadecimal a decimal.
+        -Se maneja un posible error de conversión utilizando un bloque `try-except` para capturar excepciones `(ValueError)` y evitar que el programa se detenga en caso de valores hexadecimales inválidos.
+        Salida: El valor decimal correspondiente o un mensaje de advertencia si la conversión falla.
+
+        ```python
+            def hex_to_decimal(hex_str):
+        try:
+            return int(hex_str, 16)
+        except ValueError:
+            print(f"Advertencia: Valor hexadecimal inválido: {hex_str}")
+            return None
+        ```
 
 3. **`ip_to_hex(ip_str):`**
 
-    - Propósito: Convierte una dirección IP en formato decimal a hexadecimal.
-    - Algoritmo: Divide la IP en octetos, convierte cada octeto a hexadecimal y los une con puntos (.).
+    **Propósito:** Convertir una dirección IP en formato decimal a su equivalente en hexadecimal.
+
+    **Algoritmo:** 
+    
 
 3. **`process_line(line):`**
 
