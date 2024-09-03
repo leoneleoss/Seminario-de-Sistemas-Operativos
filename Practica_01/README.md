@@ -4,7 +4,7 @@
 
 Este proyecto aborda el tema del **"Procesamiento por lotes en programación"**. El procesamiento por lotes es una técnica que se utiliza para manejar grandes volúmenes de datos en bloques o lotes, en lugar de procesar los datos uno a uno en tiempo real. Este enfoque es útil para operaciones complejas y para manejar grandes conjuntos de datos de manera eficiente.
 
-El código proporcionado realiza procesamiento por lotes sobre un archivo CSV que contiene direcciones IPv6, cadenas de texto y direcciones IP. La tarea es leer el archivo línea por línea (en lotes) y transformar los datos según los requisitos especificados:
+El código proporcionado realiza procesamiento por lotes sobre un archivo *CSV (comma-separated values)*  que contiene direcciones IPv6, cadenas de texto y direcciones IP. La tarea es leer el archivo línea por línea (en lotes) y transformar los datos según los requisitos especificados:
 
 1. **Conversión de Hexadecimal a Decimal**: Se convierten direcciones IPv6 de formato hexadecimal a decimal.
 2. **Extracción de Información Específica**: Se extrae la segunda cadena de texto de cada línea.
