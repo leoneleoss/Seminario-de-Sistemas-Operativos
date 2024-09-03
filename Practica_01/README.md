@@ -26,7 +26,7 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
     #### **Propósito:** 
     Limpiar las cadenas hexadecimales para eliminar cualquier información que aparezca después de una barra `(/)`.
 
-    #### -**Algoritmo:
+    #### -**Algoritmo**:
 
     1. Entrada: Una cadena hexadecimal que puede tener una parte adicional después de una barra `(/)`, como ` 'b06/55'`.
     2. Operación:
