@@ -34,10 +34,10 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
         - Se toma la primera parte del resultado de la división (la que precede a la barra).
     3. Salida: La cadena hexadecimal limpia, por ejemplo, `'b06'`.
 
-    ```python
-        def clean_hex(hex_str):
-            return hex_str.split('/')[0]
-    ```
+        ```python
+            def clean_hex(hex_str):
+                return hex_str.split('/')[0]
+        ```
 2. **`hex_to_decimal(hex_str)`**:
 
     #### **Propósito:** Convertir una cadena hexadecimal a un valor decimal.
@@ -49,14 +49,14 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
             -Se maneja un posible error de conversión utilizando un bloque `try-except` para capturar excepciones `(ValueError)` y evitar que el programa se detenga en caso de valores hexadecimales inválidos.
     3. Salida: El valor decimal correspondiente o un mensaje de advertencia si la conversión falla.
 
-    ```python
-         def hex_to_decimal(hex_str):
-            try:
-                return int(hex_str, 16)
-            except ValueError:
-               print(f"Advertencia: Valor hexadecimal inválido: {hex_str}")
-                return None
-    ```
+        ```python
+            def hex_to_decimal(hex_str):
+                try:
+                    return int(hex_str, 16)
+                except ValueError:
+                print(f"Advertencia: Valor hexadecimal inválido: {hex_str}")
+                    return None
+        ```
 
 3. **`ip_to_hex(ip_str):`**
 
@@ -93,31 +93,31 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
         - Se formatea el resultado en el formato requerido.
     3. Salida: Una cadena de texto formateada con la segunda cadena de texto, los valores decimales de los hexadecimales, y la dirección IP en hexadecimal.
 
-    ```python
-    def process_line(line):
-        parts = line.strip().split(',')
-            
-        if len(parts) < 6:
-            print(f"Advertencia: Línea con formato incorrecto: {line}")
-                return None
+        ```python
+        def process_line(line):
+            parts = line.strip().split(',')
+                
+            if len(parts) < 6:
+                print(f"Advertencia: Línea con formato incorrecto: {line}")
+                    return None
 
-        hex_parts = parts[0].split(':')
-        cleaned_hex_parts = [clean_hex(part) for part in hex_parts]
-            
-        decimal_parts = []
-        for part in cleaned_hex_parts:
-            if re.fullmatch(r'[0-9A-Fa-f]+', part):
-                decimal_value = hex_to_decimal(part)
-                if decimal_value is not None:
-                    decimal_parts.append(decimal_value)
-            
-        second_text = parts[2]
-        ip_address = parts[-1]
-        ip_hex = ip_to_hex(ip_address)
-            
-        result = f"{second_text} : {' : '.join(map(str, decimal_parts))} : {ip_hex}"
-        return result
-    ```
+            hex_parts = parts[0].split(':')
+            cleaned_hex_parts = [clean_hex(part) for part in hex_parts]
+                
+            decimal_parts = []
+            for part in cleaned_hex_parts:
+                if re.fullmatch(r'[0-9A-Fa-f]+', part):
+                    decimal_value = hex_to_decimal(part)
+                    if decimal_value is not None:
+                        decimal_parts.append(decimal_value)
+                
+            second_text = parts[2]
+            ip_address = parts[-1]
+            ip_hex = ip_to_hex(ip_address)
+                
+            result = f"{second_text} : {' : '.join(map(str, decimal_parts))} : {ip_hex}"
+            return result
+        ```
 
 4. **`process_file(input_file, output_file)`:**
     #### **Propósito:**
@@ -130,14 +130,14 @@ Este enfoque de procesamiento por lotes permite manejar eficientemente la conver
         - Se lee cada línea del archivo de entrada, se procesa con `process_line()`, y se escribe el resultado en el archivo de salida.
     3. Salida: El archivo de salida contiene las líneas procesadas en el formato especificado. 
 
-    ```python
-    def process_file(input_file, output_file):
-    with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
-        for line in infile:
-            result = process_line(line)
-            if result:
-                outfile.write(result + '\n')
-    ```
+        ```python
+        def process_file(input_file, output_file):
+        with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
+            for line in infile:
+                result = process_line(line)
+                if result:
+                    outfile.write(result + '\n')
+        ```
 ## **Conclusión**
 El código proporciona una solución efectiva para procesar y transformar datos en formato CSV. Las características funcionales incluyen:
 
