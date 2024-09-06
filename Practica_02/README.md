@@ -22,9 +22,9 @@ En el ámbito de la informática, la seguridad de los archivos es crucial para p
 
     2. **Inicialización del Contador**
 
-    ```python 
-        count = 0:
-    ``` 
+        ```python 
+            count = 0:
+        ``` 
     Se inicializa un contador `count` que llevará el número de archivos maliciosos eliminados. Este valor será devuelto al final de la función.
 
     3. **Recorrido del Directorio y Subdirectorios**
