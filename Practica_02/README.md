@@ -56,22 +56,23 @@ El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos 
 
 #### **Métodos Utilizados**
 
-    - **`os.walk(directory)`**: Este método recorre un directorio y todas sus subcarpetas, devolviendo la ruta del directorio actual, las subcarpetas y los archivos contenidos en cada directorio.
+- **`os.walk(directory)`**: Este método recorre un directorio y todas sus subcarpetas, devolviendo la ruta del directorio actual, las subcarpetas y los archivos contenidos en cada directorio.
 
-    - **`fnmatch.fnmatch(filename, pattern)`**: Este método compara el nombre de un archivo con un patrón. En este caso, usamos `*{ext}` como patrón para buscar archivos que terminan con una de las extensiones maliciosas definidas.
+- **`fnmatch.fnmatch(filename, pattern)`**: Este método compara el nombre de un archivo con un patrón. En este caso, usamos `*{ext}` como patrón para buscar archivos que terminan con una de las extensiones maliciosas definidas.
 
-    - **`os.path.join(path, filename)`**: Combina la ruta de un directorio (`path`) y el nombre de un archivo (`filename`) para formar una ruta completa hacia ese archivo.
+- **`os.path.join(path, filename)`**: Combina la ruta de un directorio (`path`) y el nombre de un archivo (`filename`) para formar una ruta completa hacia ese archivo.
 
-    - **`os.remove(path)`**: Elimina el archivo especificado en `path`. Si la eliminación es exitosa, el archivo ya no existirá en el sistema.
+- **`os.remove(path)`**: Elimina el archivo especificado en `path`. Si la eliminación es exitosa, el archivo ya no existirá en el sistema.
 
-    - **`os.path.exists(path)`**: Verifica si el archivo o directorio especificado en `path` aún existe en el sistema. Se utiliza después de `os.remove()` para confirmar que el archivo fue eliminado correctamente.
+- **`os.path.exists(path)`**: Verifica si el archivo o directorio especificado en `path` aún existe en el sistema. Se utiliza después de `os.remove()` para confirmar que el archivo fue eliminado correctamente.
 
-    - **`try-except`**: Este bloque de código se usa para manejar errores que puedan ocurrir durante la eliminación de archivos, como problemas de permisos u otros errores del sistema operativo.
+- **`try-except`**: Este bloque de código se usa para manejar errores que puedan ocurrir durante la eliminación de archivos, como problemas de permisos u otros errores del sistema operativo.
 
 #### **Estructura del Programa**:
-    - **Entrada del Usuario**: Solicita la ruta del directorio a monitorear.
-    - **Monitoreo Continuo**: Ejecuta la función de limpieza en intervalos de 10 segundos.
-    - **Interrupción del Programa**: Permite detener el monitoreo con Ctrl+C.
+
+- **Entrada del Usuario**: Solicita la ruta del directorio a monitorear.
+- **Monitoreo Continuo**: Ejecuta la función de limpieza en intervalos de 10 segundos.
+- **Interrupción del Programa**: Permite detener el monitoreo con Ctrl+C.
 
 ## **Conclusión**
 Entendí como hacer un programa eficaz para detectar y eliminar archivos con extensiones maliciosas haciendo uso de ciertas librerias. 
