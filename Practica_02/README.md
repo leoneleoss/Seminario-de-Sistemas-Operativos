@@ -54,7 +54,7 @@ El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos 
     La función devuelve el número de archivos eliminados, que es el valor del contador `count`. Esto permite al programa principal saber si todavía hay archivos maliciosos en el sistema.
 
 
-   - **Métodos Utilizados**
+- **Métodos Utilizados**
 
     - **`os.walk(directory)`**: Este método recorre un directorio y todas sus subcarpetas, devolviendo la ruta del directorio actual, las subcarpetas y los archivos contenidos en cada directorio.
 
