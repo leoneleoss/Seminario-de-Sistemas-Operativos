@@ -2,7 +2,7 @@
 
 ## **Contexto**
 
-En el ámbito de la informática, la seguridad de los archivos es crucial para proteger los sistemas contra software malicioso. El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos peligrosos de manera eficiente. Este programa está diseñado para detectar y eliminar automáticamente archivos con extensiones potencialmente dañinas (`.exe`, `.bat`, `.vbs`) en un directorio especificado, ayudando a mantener la integridad y seguridad del sistema.
+El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos peligrosos de manera eficiente. Este programa está diseñado para detectar y eliminar automáticamente archivos con extensiones potencialmente dañinas (`.exe`, `.bat`, `.vbs`) en un directorio especificado, ayudando a mantener la integridad y seguridad del sistema.
 
 ## **Metodología**
 
