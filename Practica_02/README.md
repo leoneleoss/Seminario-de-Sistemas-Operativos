@@ -54,7 +54,7 @@ El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos 
     La función devuelve el número de archivos eliminados, que es el valor del contador `count`. Esto permite al programa principal saber si todavía hay archivos maliciosos en el sistema.
 
 
-- **Métodos Utilizados**
+#### **Métodos Utilizados**
 
     - **`os.walk(directory)`**: Este método recorre un directorio y todas sus subcarpetas, devolviendo la ruta del directorio actual, las subcarpetas y los archivos contenidos en cada directorio.
 
@@ -68,7 +68,7 @@ El procesamiento por lotes se puede utilizar para gestionar y eliminar archivos 
 
     - **`try-except`**: Este bloque de código se usa para manejar errores que puedan ocurrir durante la eliminación de archivos, como problemas de permisos u otros errores del sistema operativo.
 
-    - **Estructura del Programa**:
+#### **Estructura del Programa**:
     - **Entrada del Usuario**: Solicita la ruta del directorio a monitorear.
     - **Monitoreo Continuo**: Ejecuta la función de limpieza en intervalos de 10 segundos.
     - **Interrupción del Programa**: Permite detener el monitoreo con Ctrl+C.
