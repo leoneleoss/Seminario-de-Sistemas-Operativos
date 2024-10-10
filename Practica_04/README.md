@@ -1,4 +1,4 @@
-# **Simulación de Algoritmos de Planificación de Procesos (FIFO, SJF, Prioridades, Round Robin)**
+# **PRACTICA 04 -  Algoritmos de Planificación (2) **
 
 ## **Antecedentes (Contexto)**
 Este proyecto simula los algoritmos de planificación de procesos Prioridades y Round Robin, en adición a los algoritmos ya implementados (FIFO y SJF). La planificación de procesos es crucial en los sistemas operativos para gestionar eficientemente la ejecución de múltiples tareas. 
