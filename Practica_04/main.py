@@ -1,4 +1,3 @@
-import os
 import csv
 from collections import deque
 from prettytable import PrettyTable

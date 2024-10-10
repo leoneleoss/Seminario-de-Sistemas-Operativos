@@ -1,3 +1,4 @@
+Opera ,20,1
 Google Chrome, 11, 2
 Slack, 8, 3
 Registry, 6, 7

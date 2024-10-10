@@ -1,6 +1,4 @@
-import os
 import csv
-from collections import deque
 from prettytable import PrettyTable
 
 # Función para cargar los procesos desde el archivo .txt
