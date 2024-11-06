@@ -1,130 +1,177 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import filedialog
 
-# Definir el espacio de memoria (bloques de memoria disponibles en KB)
-bloques_memoria = [300, 600, 350, 200, 750]  # Espacios de memoria disponibles en KB
-rectangulos_memoria = []
+# Funciones de los algoritmos de administración de memoria
 
-# Función para leer archivos y tamaños desde un archivo .txt proporcionado por el usuario
-def leer_archivos(ruta):
-    archivos = []
-    with open(ruta, "r") as f:
-        for linea in f:
-            nombre, tamano = linea.strip().split(", ")
-            archivos.append((nombre, int(tamano[:-2])))  # Quitamos 'kb' y convertimos a entero
-    return archivos
-
-# Función para el algoritmo de Primer ajuste
-def primer_ajuste(archivos, bloques_memoria):
-    asignacion = [-1] * len(archivos)  # Inicializamos sin asignar (-1)
-    for i, archivo in enumerate(archivos):
-        for j, bloque in enumerate(bloques_memoria):
-            if archivo[1] <= bloque:  # Si el archivo cabe en el bloque
-                asignacion[i] = j  # Asignamos el bloque al archivo
-                bloques_memoria[j] -= archivo[1]  # Reducimos el espacio disponible en el bloque
-                break
-    return asignacion
-
-# Función para el algoritmo de Mejor ajuste
-def mejor_ajuste(archivos, bloques_memoria):
-    asignacion = [-1] * len(archivos)
-    for i, archivo in enumerate(archivos):
-        mejor_bloque = -1
-        for j, bloque in enumerate(bloques_memoria):
-            if archivo[1] <= bloque:
-                if mejor_bloque == -1 or bloques_memoria[mejor_bloque] > bloque:
-                    mejor_bloque = j
-        if mejor_bloque != -1:
-            asignacion[i] = mejor_bloque
-            bloques_memoria[mejor_bloque] -= archivo[1]
-    return asignacion
-
-# Función para mostrar la asignación visualmente en una sola barra
-def mostrar_asignacion_visual(archivos, asignacion, bloques_disponibles):
-    for rect in rectangulos_memoria:
-        canvas.delete(rect)
+def primer_ajuste(memoria, archivos):
+    bloques_asignados = []
+    archivos_por_bloque = {i: [] for i in range(len(memoria))}
     
-    rectangulos_memoria.clear()
-
-    x_start = 50  # Inicio del primer rectángulo
-    y_position = 100  # Fija la altura para todos los rectángulos
-    canvas_width = root.winfo_width() - 100  # Ajustar para la barra completa
-
-    # Calcular el tamaño total de memoria
-    total_memoria = sum(bloques_memoria)
-
-    for j, bloque in enumerate(bloques_disponibles):
-        # Dibujar bloque de memoria
-        bloque_width = int((bloque / total_memoria) * canvas_width)  # Escalamos el ancho según el tamaño total de la memoria
-        rectangulo = canvas.create_rectangle(x_start, y_position, x_start + bloque_width, y_position + 50, outline="black", fill="white")
-        canvas.create_text(x_start + (bloque_width // 2), y_position + 25, text=f"{bloque} KB", fill="black")
-        rectangulos_memoria.append(rectangulo)
-        
-        # Dibujar archivos asignados en este bloque
-        for i, archivo in enumerate(archivos):
-            if asignacion[i] == j:
-                # Dibujar asignación del archivo en el bloque
-                archivo_width = int((archivos[i][1] / total_memoria) * canvas_width)
-                archivo_rect = canvas.create_rectangle(x_start, y_position, x_start + archivo_width, y_position + 50, fill="red")
-                canvas.create_text(x_start + archivo_width // 2, y_position + 25, text=f"{archivos[i][0]} ({archivos[i][1]} KB)", fill="white")
-                x_start += archivo_width  # Mover el inicio del siguiente archivo
-        
-        # Desplazar el inicio del siguiente bloque
-        x_start += bloque_width - sum([(archivos[i][1] / total_memoria) * canvas_width for i in range(len(archivos)) if asignacion[i] == j])
-
-# Función principal del programa
-def ejecutar_programa():
-    ruta_archivo = entry_ruta.get()
-    try:
-        archivos = leer_archivos(ruta_archivo)
-    except FileNotFoundError:
-        messagebox.showerror("Error", "No se encontró el archivo.")
-        return
-    except Exception as e:
-        messagebox.showerror("Error", f"Error al leer el archivo: {e}")
-        return
+    for archivo in archivos:
+        asignado = False
+        for i in range(len(memoria)):
+            if memoria[i] >= archivo[1] and not asignado:
+                memoria[i] -= archivo[1]
+                archivos_por_bloque[i].append(archivo)
+                asignado = True
+        if not asignado:
+            bloques_asignados.append((archivo[0], -1, archivo[1]))  # No asignado
     
-    bloques_disponibles = bloques_memoria.copy()
+    # Convertir los archivos por bloque en la lista final
+    for i in range(len(memoria)):
+        for archivo in archivos_por_bloque[i]:
+            bloques_asignados.append((archivo[0], i, archivo[1]))
+    
+    return bloques_asignados
 
-    if var_algoritmo.get() == "Primer ajuste":
-        asignacion = primer_ajuste(archivos, bloques_disponibles)
-    elif var_algoritmo.get() == "Mejor ajuste":
-        asignacion = mejor_ajuste(archivos, bloques_disponibles)
-    else:
-        messagebox.showerror("Error", "Debe seleccionar un algoritmo.")
-        return
+def mejor_ajuste(memoria, archivos):
+    bloques_asignados = []
+    archivos_por_bloque = {i: [] for i in range(len(memoria))}
+    
+    for archivo in archivos:
+        asignado = False
+        # Ordenamos los bloques de memoria para encontrar el mejor ajuste
+        memoria_sorted = sorted([(i, memoria[i]) for i in range(len(memoria))], key=lambda x: x[1])
+        for i, espacio in memoria_sorted:
+            if espacio >= archivo[1] and not asignado:
+                memoria[i] -= archivo[1]
+                archivos_por_bloque[i].append(archivo)
+                asignado = True
+        if not asignado:
+            bloques_asignados.append((archivo[0], -1, archivo[1]))  # No asignado
+    
+    # Convertir los archivos por bloque en la lista final
+    for i in range(len(memoria)):
+        for archivo in archivos_por_bloque[i]:
+            bloques_asignados.append((archivo[0], i, archivo[1]))
+    
+    return bloques_asignados
 
-    # Mostrar la asignación visualmente en una sola barra
-    mostrar_asignacion_visual(archivos, asignacion, bloques_memoria.copy())
 
-# Configuración de la interfaz gráfica (Tkinter)
-root = tk.Tk()
-root.title("Administración de Memoria")
-root.attributes('-fullscreen', True)  # Pantalla completa
+# Interfaz gráfica
 
-# Crear etiquetas y entrada de texto para la ruta del archivo
-frame_top = tk.Frame(root)
-frame_top.pack(pady=10)
-tk.Label(frame_top, text="Ruta del archivo .txt:").pack(side=tk.LEFT, padx=5)
-entry_ruta = tk.Entry(frame_top, width=50)
-entry_ruta.pack(side=tk.LEFT, padx=5)
+class MemoriaApp:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Algoritmos de Administración de Memoria")
+        self.master.geometry("800x600")  # Tamaño más razonable para el ejemplo
+        
+        self.memoria = [512, 1024, 2048, 4096, 8192]  # Memoria dividida en 5 partes desiguales
+        self.archivos = []  # Aquí almacenaremos los archivos leídos del archivo .txt
+        
+        self.create_widgets()
 
-# Selección del algoritmo
-var_algoritmo = tk.StringVar(value="Primer ajuste")
-tk.Radiobutton(root, text="Primer ajuste", variable=var_algoritmo, value="Primer ajuste").pack()
-tk.Radiobutton(root, text="Mejor ajuste", variable=var_algoritmo, value="Mejor ajuste").pack()
+    def create_widgets(self):
+        # Botón para seleccionar el algoritmo
+        self.algoritmo_label = tk.Label(self.master, text="Selecciona un algoritmo:")
+        self.algoritmo_label.pack(pady=10)
+        
+        self.algoritmo_var = tk.StringVar(value="Primer Ajuste")
+        self.primer_ajuste_radio = tk.Radiobutton(self.master, text="Primer Ajuste", variable=self.algoritmo_var, value="Primer Ajuste")
+        self.primer_ajuste_radio.pack()
+        self.mejor_ajuste_radio = tk.Radiobutton(self.master, text="Mejor Ajuste", variable=self.algoritmo_var, value="Mejor Ajuste")
+        self.mejor_ajuste_radio.pack()
+        
+        # Botón para seleccionar el archivo .txt
+        self.cargar_archivos_button = tk.Button(self.master, text="Cargar Archivos", command=self.cargar_archivos)
+        self.cargar_archivos_button.pack(pady=20)
+        
+        self.asignar_button = tk.Button(self.master, text="Asignar Archivos", command=self.asignar_archivos, state=tk.DISABLED)
+        self.asignar_button.pack(pady=20)
 
-# Botón para ejecutar el programa
-tk.Button(root, text="Ejecutar", command=ejecutar_programa).pack(pady=10)
+        # Botón para limpiar la memoria
+        self.limpiar_button = tk.Button(self.master, text="Limpiar Memoria", command=self.limpiar_memoria)
+        self.limpiar_button.pack(pady=20)
 
-# Crear un canvas para la representación gráfica de los bloques de memoria
-canvas = tk.Canvas(root, bg="white")
-canvas.pack(fill=tk.BOTH, expand=True)
+        # Canvas para mostrar la memoria y los archivos
+        self.canvas = tk.Canvas(self.master, bg="white")
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self.canvas.bind("<Configure>", self.redibujar_memoria)
 
-# Botón para salir de pantalla completa
-def salir_pantalla_completa():
-    root.attributes('-fullscreen', False)
+    def cargar_archivos(self):
+        # Solicitar al usuario que seleccione el archivo .txt
+        archivo_path = filedialog.askopenfilename(title="Selecciona el archivo con la lista de archivos", filetypes=[("Text files", "*.txt")])
+        
+        if archivo_path:
+            with open(archivo_path, "r") as file:
+                self.archivos = []
+                for line in file:
+                    nombre, tamaño = line.strip().split(", ")
+                    self.archivos.append((nombre, int(tamaño.replace("kb", ""))))
+            
+            # Habilitar el botón de asignar
+            self.asignar_button.config(state=tk.NORMAL)
 
-tk.Button(root, text="Salir de pantalla completa", command=salir_pantalla_completa).pack(pady=10)
+    def asignar_archivos(self):
+        # Limpiar el lienzo
+        self.canvas.delete("all")
+        
+        # Leer los archivos
+        archivos = self.archivos
+        
+        # Seleccionar el algoritmo
+        algoritmo = self.algoritmo_var.get()
+        
+        if algoritmo == "Primer Ajuste":
+            bloques_asignados = primer_ajuste(self.memoria.copy(), self.archivos)
+        elif algoritmo == "Mejor Ajuste":
+            bloques_asignados = mejor_ajuste(self.memoria.copy(), self.archivos)
+        elif algoritmo == "Peor Ajuste":
+            bloques_asignados = peor_ajuste(self.memoria.copy(), self.archivos)
+        elif algoritmo == "Siguiente Ajuste":
+            bloques_asignados = siguiente_ajuste(self.memoria.copy(), self.archivos)
+        
+        # Mostrar la memoria y los bloques asignados
+        self.dibujar_memoria(bloques_asignados)
+    
+    def dibujar_memoria(self, bloques_asignados):
+        # Obtener las dimensiones actuales del canvas
+        canvas_width = self.canvas.winfo_width()
+        canvas_height = self.canvas.winfo_height()
 
-root.mainloop()
+        # Calcular la posición de inicio y las dimensiones de cada bloque
+        memoria_inicio_x = 50
+        memoria_y = 50
+        memoria_altura = 100
+        color = ["#FF6347", "#8A2BE2", "#5F9EA0", "#FFD700"]
+        
+        # Dibujar los bloques de memoria
+        for i, espacio in enumerate(self.memoria):
+            self.canvas.create_rectangle(memoria_inicio_x, memoria_y, memoria_inicio_x + 200, memoria_y + memoria_altura, outline="black", fill="#D3D3D3")
+            self.canvas.create_text(memoria_inicio_x + 100, memoria_y + 50, text=f"Bloque {i+1} - {espacio}KB", font=("Helvetica", 12))
+            memoria_inicio_x += 250  # Espaciado entre bloques de memoria
+
+        # Dibujar los archivos apilados debajo de cada bloque
+        archivo_inicio_y = memoria_y + memoria_altura + 20  # Posición inicial debajo de los bloques
+        for i in range(len(self.memoria)):
+            archivo_x = 50 + i * 250  # Posición X para cada bloque
+            archivo_y = archivo_inicio_y
+            for archivo, bloque, tamaño in bloques_asignados:
+                if bloque == i:  # Solo mostrar los archivos asignados al bloque i
+                    self.canvas.create_rectangle(archivo_x, archivo_y, archivo_x + 200, archivo_y + 50, outline="black", fill=color[i % len(color)])
+                    self.canvas.create_text(archivo_x + 100, archivo_y + 25, text=f"{archivo} - {tamaño}KB", font=("Helvetica", 12))
+                    archivo_y += 60  # Apilar los archivos dentro del bloque
+            archivo_inicio_y = archivo_y  # Ajustar la altura para el siguiente bloque
+
+    def limpiar_memoria(self):
+        # Restablecer los valores de la memoria a su estado inicial
+        self.memoria = [512, 1024, 2048, 4096, 8192]
+        
+        # Limpiar el lienzo
+        self.canvas.delete("all")
+        
+        # Redibujar la memoria limpia
+        self.dibujar_memoria([])
+
+    def redibujar_memoria(self, event):
+        # Redibujar la memoria cuando el canvas cambia de tamaño
+        self.canvas.delete("all")
+        self.dibujar_memoria([])
+
+# Ejecutar la aplicación
+def run():
+    root = tk.Tk()
+    app = MemoriaApp(root)
+    root.mainloop()
+
+run()

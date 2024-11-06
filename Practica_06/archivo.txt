@@ -1,3 +1,5 @@
+texto.py, 1kb
+hola.txt, 396kb
 hola_mundo.py, 500kb
 lista_de_compras.txt, 950kb
 resumen.docx, 1200kb
