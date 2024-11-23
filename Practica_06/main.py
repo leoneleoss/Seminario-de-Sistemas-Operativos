@@ -116,10 +116,7 @@ class MemoriaApp:
             bloques_asignados = primer_ajuste(self.memoria.copy(), self.archivos)
         elif algoritmo == "Mejor Ajuste":
             bloques_asignados = mejor_ajuste(self.memoria.copy(), self.archivos)
-        elif algoritmo == "Peor Ajuste":
-            bloques_asignados = peor_ajuste(self.memoria.copy(), self.archivos)
-        elif algoritmo == "Siguiente Ajuste":
-            bloques_asignados = siguiente_ajuste(self.memoria.copy(), self.archivos)
+
         
         # Mostrar la memoria y los bloques asignados
         self.dibujar_memoria(bloques_asignados)
